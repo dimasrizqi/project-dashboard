@@ -1,0 +1,78 @@
+{% extends "base.html" %}{% load staticfiles %}
+{% block head_title %}
+		<title>Handover Registered - Miniportal</title>{% endblock %}
+{% block style_css %}
+		<link rel="stylesheet" href="{% static 'css/components/tooltip.min.css' %}">{% endblock %}
+{% block style_js %}
+		<script src="{% static 'js/components/tooltip.js' %}"></script>{% endblock %}
+{% block content %}
+		<nav class="uk-navbar uk-margin-small-bottom">
+		<ul class="uk-navbar-nav">
+			<li class="uk-parent" data-uk-dropdown>
+				<a href="">Filter</i></a>
+				<div class="uk-dropdown uk-dropdown-width-2 uk-text-small">
+					<div class="uk-grid uk-dropdown-grid">
+						<div class="uk-width-1-2">
+							<ul class="uk-nav uk-nav-dropdown">
+								<li class="uk-nav-header">Filter By Status</li>
+								<li><a href="{% url 'handover:handover_list' %}">All Status</a></li>
+								<li><a href="{% url 'handover:handover_list' %}?f=success">Success</a></li>
+								<li><a href="{% url 'handover:handover_list' %}?f=pending">Pending</a></li>
+							</ul>
+						</div>
+						<div class="uk-width-1-2">
+							<ul class="uk-nav uk-nav-dropdown">
+								<li class="uk-nav-header">Filter By Others</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</li>
+		</ul>
+		<div class="uk-navbar-flip">
+			<ul class="uk-navbar-nav">
+				<li class="uk-parent" data-uk-dropdown>
+					<a href="">About</i></a>
+					<div class="uk-dropdown uk-dropdown-navbar">
+						<ul class="uk-nav uk-nav-navbar">
+							<li class="uk-text-center uk-text-small"><a href="{% url 'logout'%}"><i class="uk-icon-sign-out"></i> Logout</a></li>
+							<li class="uk-nav-divider"></li>
+							<li class="uk-margin-left uk-text-small">Miniportal Project Support Sub Bag</li>
+							<li class="uk-text-center uk-text-small uk-margin-top"><i class="uk-icon-lightbulb-o"></i> made with smile <i class="uk-icon-smile-o"></i></li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="uk-navbar-content uk-navbar-center">Miniportal</div>
+		</nav>
+		<div class="">
+			<table class="uk-table uk-table-hover uk-text-small">
+				<thead>
+					<tr>
+						<th>Customer</th>
+						<th>Project Name</th>
+						<th>PM</th>
+						<th>Status</th>
+						<th>Handover Date</th>
+						<th>Reminder Date</th>
+						<th>Details</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>{% for list in handover%}
+						<td>{{list.customer_name}}</td>
+						<td>{{list.project_name}}</td>
+						<td><span data-uk-tooltip title="{{list.projectmanager.name}}">{{list.projectmanager.initial}}</span></td>
+						<td>{% if list.handover_status %}<span class="uk-text-success">Success</span>{% else %}<span class="uk-text-danger">Pending</span>{% endif %}</td>
+						<td>{{list.handover_date}} <b>| {{list.handover_date|timesince}}</b></td>
+						<td>{{list.reminder_date}} <b>| {{list.reminder_date|timesince}}</b></td>
+						<td class="uk-text-center"><a href="/handover/{{list.random_field}}">Link</a></td>
+					</tr>{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<div class="uk-panel uk-panel-box uk-text-center uk-margin-small-top" style="padding:9px 9px 9px 9px;">
+			<p><img src="{% static 'img/icons/dj64.ico' %}" height="16" width="16"> <a class="uk-link-muted" href="http://www.djangoproject.com" target="_blank">django</a> | <img src="{% static 'img/icons/uk64.ico' %}" height="14" width="14"> <a class="uk-link-muted" href="http://www.getuikit.com" target="_blank">uikit</a></p>
+		</div>
+{% endblock %}

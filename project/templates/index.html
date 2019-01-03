@@ -1,0 +1,349 @@
+{% extends "base.html" %}{% load staticfiles %}
+{% block head_title %}
+		<title>Home - Mini Portal</title>{% endblock %}
+{% block style_css %}
+		<link rel="stylesheet" href="{% static 'css/components/accordion.min.edit.css' %}">
+		<link rel="stylesheet" href="{% static 'css/components/tooltip.min.css' %}">{% endblock %}
+{% block style_js %}
+		<script src="{% static 'js/components/accordion.js' %}"></script>
+		<script src="{% static 'js/components/tooltip.js' %}"></script>{% endblock %}
+{% block content %}
+
+{% load staticfiles %}
+{% block extrahead %}
+    <!-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script>
+        window.onload = function () {
+              
+            // grafik kategori project
+             ctx = document.getElementById("kategori-project-chart");
+             lineChart = new Chart(ctx, {
+                type: 'pie',
+                width:800,
+                        height:800,
+                data: {
+                  labels: [{%for project_categorynya_for in project_categorynya %}'{{project_categorynya_for.project_category}}',{% endfor %}],
+                  datasets: [
+                    {
+                      label: [{%for project_categorynya_for in project_categorynya %}'{{project_categorynya_for.project_category}}',{% endfor %}],
+                      backgroundColor: ['#FF0033','#1E90FF ','#FF8C00','#FF1493 ','yellow','blue'],
+                      data: [ '{{var_project_project_category1nya.count}}','{{var_project_project_category2nya.count}}','{{var_project_project_category3nya.count}}','{{var_project_project_category4nya.count}}','{{var_project_project_category5nya.count}}','{{var_project_project_category6nya.count}}']
+                    }
+                  ]
+                },
+                options: {
+                  responsive: true,
+                  legend: { 
+                            display: true,
+                            position: 'right',
+                            onClick: null,
+
+                            labels: {
+                              usePointStyle: true,
+                generateLabels: function(chart) {
+                    var data = chart.data;
+                    if (data.labels.length && data.datasets.length) {
+                        return data.labels.map(function(label, i) {
+                            var meta = chart.getDatasetMeta(0);
+                            var ds = data.datasets[0];
+                            var arc = meta.data[i];
+                            var custom = arc && arc.custom || {};
+                            var getValueAtIndexOrDefault = Chart.helpers.getValueAtIndexOrDefault;
+                            var arcOpts = chart.options.elements.arc;
+                            var fill = custom.backgroundColor ? custom.backgroundColor : getValueAtIndexOrDefault(ds.backgroundColor, i, arcOpts.backgroundColor);
+                            var stroke = custom.borderColor ? custom.borderColor : getValueAtIndexOrDefault(ds.borderColor, i, arcOpts.borderColor);
+                            var bw = custom.borderWidth ? custom.borderWidth : getValueAtIndexOrDefault(ds.borderWidth, i, arcOpts.borderWidth);
+
+              // We get the value of the current label
+              var value = chart.config.data.datasets[arc._datasetIndex].data[arc._index];
+
+                            return {
+                                // Instead of `text: label,`
+                                // We add the value to the string
+                                text: label + " : " + value,
+                                fillStyle: fill,
+                                strokeStyle: stroke,
+                                lineWidth: bw,
+                                hidden: isNaN(ds.data[i]) || meta.data[i].hidden,
+                                index: i
+                            };
+                        });
+                    } else {
+                        return [];
+                    }
+                }
+            }
+                          },
+                  //untuk dapat di klik sesuai label atau isi nya
+                  onClick:function(e){
+                  var activePoints = lineChart.getElementsAtEvent(e);
+                  if(activePoints.length > 0)
+                  {
+                  var selectedIndex = activePoints[0]._model["label"];
+                  window.location = ("kategori/"+selectedIndex);
+                   // console.log(selectedIndex);
+                  }
+                    },
+                  title: {
+                    display: true,
+                    text: ''
+                          }
+                }
+            }); 
+            // grafik status project
+             ctx = document.getElementById("kategori-status-chart");
+             lineChart = new Chart(ctx, {
+                type: 'pie',
+                width:800,
+                        height:800,
+                data: {
+                  labels: ['Operasional','Cabut','Isolir'],
+                  datasets: [
+                    {
+                      label: ['Operasional','Cabut','Isolir'],
+                      backgroundColor: ['lime','red','dodgerblue'],
+                      data: [ '{{status_project_ops.count}}','{{status_project_cabut.count}}','{{status_project_isolir.count}}' ]
+                    }
+                  ]
+                },
+                options: {
+                  responsive: true,
+                  legend: { 
+                            display: true,
+                            position: 'right',
+                            onClick: null,
+
+                            labels: {
+                              usePointStyle: true,
+                generateLabels: function(chart) {
+                    var data = chart.data;
+                    if (data.labels.length && data.datasets.length) {
+                        return data.labels.map(function(label, i) {
+                            var meta = chart.getDatasetMeta(0);
+                            var ds = data.datasets[0];
+                            var arc = meta.data[i];
+                            var custom = arc && arc.custom || {};
+                            var getValueAtIndexOrDefault = Chart.helpers.getValueAtIndexOrDefault;
+                            var arcOpts = chart.options.elements.arc;
+                            var fill = custom.backgroundColor ? custom.backgroundColor : getValueAtIndexOrDefault(ds.backgroundColor, i, arcOpts.backgroundColor);
+                            var stroke = custom.borderColor ? custom.borderColor : getValueAtIndexOrDefault(ds.borderColor, i, arcOpts.borderColor);
+                            var bw = custom.borderWidth ? custom.borderWidth : getValueAtIndexOrDefault(ds.borderWidth, i, arcOpts.borderWidth);
+
+              // We get the value of the current label
+              var value = chart.config.data.datasets[arc._datasetIndex].data[arc._index];
+
+                            return {
+                                // Instead of `text: label,`
+                                // We add the value to the string
+                                text: label + " : " + value,
+                                fillStyle: fill,
+                                strokeStyle: stroke,
+                                lineWidth: bw,
+                                hidden: isNaN(ds.data[i]) || meta.data[i].hidden,
+                                index: i
+                            };
+                        });
+                    } else {
+                        return [];
+                    }
+                }
+            }
+                          },
+                  //untuk dapat di klik sesuai label atau isi nya
+                  onClick:function(e){
+                  var activePoints = lineChart.getElementsAtEvent(e);
+                  if(activePoints.length > 0)
+                  {
+                  var selectedIndex = activePoints[0]._model["label"];
+                  window.location = ("kategori/"+selectedIndex);
+                   // console.log(selectedIndex);
+                  }
+                    },
+                  title: {
+                    display: true,
+                    text: ''
+                          }
+                }
+            }); 
+           var cv = document.getElementById("partner-handle-chart");
+            var ctx2 = cv.getContext('2d');
+            var chartpartnerhandle = new Chart(ctx2, {
+                type: 'horizontalBar',
+                data: {
+                  labels: [{%for partner_for in partnernya%}'{{partner_for.partner_alias}}',{% endfor %}],
+                  datasets: [
+                    {
+                      label: "",
+                      // backgroundColor: [{%for partner_for in partnernya %} randomColorGenerator(),{% endfor %}],
+                      backgroundColor: ['#FF0033','#1E90FF ','#FF8C00','#FF1493 ','#FFFF33','#7FFF00','#8B008B','#808080', '#00FFFF','#000000'],
+                      data: [ '{{project_by_lmdnya.count}}','{{project_by_lanya.count}}','{{project_by_3nya.count}}','{{project_by_4nya.count}}','{{project_by_5nya.count}}','{{project_by_6nya.count}}','{{project_by_7nya.count}}','{{project_by_8nya.count}}','{{project_by_9nya.count}}','{{project_by_10nya.count}}',]
+                    }
+                  ]
+                },
+                options: {
+                scales: {
+                        yAxes: [{
+                           barPercentage: 1,
+                           gridLines: {
+                             display: false
+                           }
+                        }],
+                        xAxes: [{
+                          gridLines: {
+                            zeroLineColor: "red",
+                            zeroLineWidth: 3
+                          },
+                          ticks: {
+                            min: 0,
+                            max: 30,
+                            stepSize: 2
+                          },
+                          scaleLabel: {
+                            display: true,
+                            labelString: "Grafik partner berdasarkan project yang dihandle"
+                          }
+                        }]
+                      },
+                legend: { display: false },
+                //untuk dapat di klik sesuai label atau isi nya
+                onClick:function(e){
+                  //get event element click 
+                  var activePoints = chartpartnerhandle.getElementsAtEvent(e);
+                  // var selectedIndex = activePoints[0]._index;
+                  //event get from aray
+                  var selectedIndex = activePoints[0]._model["label"];
+                  window.location = ("project/partner/"+selectedIndex);
+                  // console.log(selectedIndex);
+                  },
+                title: {
+                    display: true,
+                    text: 'Total Vendor {{partner_exlanya.count}}'
+                  }
+                },
+            });
+           }
+       
+      
+    </script>
+{% endblock %}
+{% include "snippets/navbar.html" %}
+
+<div class="uk-accordion-content uk-active shadow " style="margin-top: 85px;padding: 5px;">
+  <div class="uk-grid">
+    <div class="uk-width-medium-2-4 ">
+      <div class="uk-panel uk-panel-box shadow" style="padding:5px 5px 5px 5px; margin-bottom: 5px">
+      <h6 class="uk-text-bold">Project Berdasarkan Kategori</h6>
+      <canvas id="kategori-project-chart" style="margin-top: -35px; position: relative; height:40vh; width:80vw"> </canvas>
+      </div>
+    </div>
+
+    <div class="uk-width-medium-1-4">
+      <div class="uk-panel uk-panel-box shadow" style="padding:5px 5px 5px 5px; margin-bottom: 5px">
+      <h6 class="uk-text-bold"><u>Industry Solution</u></h6>
+      <ul>
+        <li>Smart City</li>
+        <li>Smart Campus</li>
+        <li>Financial</li>
+        <li>Health Care</li>
+        <li>Oil and Gas</li>
+        <li>Supply Chain</li>
+      </ul>
+      <h6 class="uk-text-bold"><u>Managed Application</u></h6>
+      <ul>
+        <li>Cpanel</li>
+        <li>Mail</li>
+        <li>SSL Certificate</li>
+        <li>Antivirus</li>
+        <li>Contact Center</li>
+        <li>Mobile Device Management</li>
+        <li>Database</li>
+      </ul>
+      </div>
+    </div>
+    
+    <div class="uk-width-medium-1-4">
+      <div class="uk-panel uk-panel-box shadow" style="padding:5px 5px 5px 5px; margin-bottom: 5px">
+      <h6 class="uk-text-bold"><u>Managed Network</u></h6>
+      <ul>
+        <li>Firewall</li>
+        <li>Access Point</li>
+        <li>WAN Optimizer</li>
+        <li>WiFi</li>
+        <li>Router</li>
+        <li>Switch</li>
+      </ul>
+      <h6 class="uk-text-bold"><u>Managed Server</u></h6>
+      <ul>
+        <li>Physical</li>
+        <li>Virtual</li>
+      </ul>
+      <h6 class="uk-text-bold"><u>Peripheral</u></h6>
+      <ul>
+        <li>Penyediaan Perangkat (IT/NON-IT)</li>
+        <li>Service Desk</li>
+      </ul>
+      </div>
+    </div>
+  </div>
+  <div class="uk-grid">
+    <div class="uk-width-medium-2-4 ">
+      <div class="uk-panel uk-panel-box shadow" style="padding:5px 5px 5px 5px; margin-bottom: 5px">
+      <h6 class="uk-text-bold">Project Status</h6>
+      <canvas id="kategori-status-chart" style="margin-top: -35px; position: relative; height:40vh; width:80vw"> </canvas>
+      </div>
+    </div>
+    <div class="uk-width-medium-2-4 ">
+      <div class="uk-panel uk-panel-box shadow" style="padding:5px 5px 5px 5px; margin-bottom: 5px">
+      <h6 class="uk-text-bold">Keterangan :</h6>
+      <b><u>Project Cabut</u></b>
+      <ol>
+      {%for cabut in status_project_cabut %}
+        <li>{{cabut}}</li>
+      {% endfor %}
+      </ol>
+      <b><u>Project Isolir</u></b>
+      <ol>
+      {%for cabut in status_project_isolir %}
+        <li>{{cabut}}</li>
+      {% endfor %}
+      </ol>
+      </div>
+    </div>   
+  </div>    
+  <div class="uk-grid">
+    <div class="uk-width-medium-2-4 ">
+      <div class="uk-panel uk-panel-box shadow" style="padding:5px 5px 5px 5px; margin-bottom: 5px">
+      <h6 class="uk-text-bold">Project Status</h6>
+      <canvas id="partner-handle-chart" style="margin-top: -35px; position: relative; height:40vh; width:80vw"> </canvas>
+      </div>
+    </div>
+
+</div>
+
+
+
+
+<div class="uk-panel uk-panel-box uk-text-center uk-margin-small-top" style="padding:9px 9px 9px 9px;">
+    <p><img src="{% static 'img/icons/dj64.ico' %}" height="16" width="16"> <a class="uk-link-muted" href="http://www.djangoproject.com" target="_blank">django</a> | <a class="uk-link-muted" href="#" target="_blank"><strong> © </strong>Dashboard Monitoring Project</a>  | <a href="https://www.linkedin.com/company/lintasarta/" target="_blank"><img src="https://www.lintasarta.net/wp-content/uploads/2018/06/xlinkedin-logo.png.pagespeed.ic.v4fxkCsCxE.webp" height="16" width="16"class="img-fluid"></a>
+      
+            
+              <a href="https://twitter.com/Lintasarta" target="_blank"><img src="https://www.lintasarta.net/wp-content/uploads/2018/06/xtwitter-logo.png.pagespeed.ic.vop4jPiDG6.webp" height="16" width="16" class="img-fluid"></a>
+      
+            
+              <a href="https://www.instagram.com/lintasarta.official" target="_blank"><img src="https://www.lintasarta.net/wp-content/uploads/2018/06/xinstagram-logo.png.pagespeed.ic.pO-8N7fpIT.webp" height="16" width="16"class="img-fluid"></a>
+      
+            
+              <a href="https://www.facebook.com/lintasarta.official/" target="_blank"><img src="https://www.lintasarta.net/wp-content/uploads/2018/06/xfacebook-logo.png.pagespeed.ic.tgvhO7jcl_.webp" height="16" width="16" class="img-fluid"></a>
+      
+            
+              <a href="https://www.youtube.com/user/aplikanusaLintasarta" target="_blank"><img src="https://www.lintasarta.net/wp-content/uploads/2018/06/xyoutube-logo.png.pagespeed.ic.qcBGMLKyRB.webp" height="16" width="16" class="img-fluid"></a>
+      </p>
+
+  </div>
+</body>
+</html>
+{% endblock %}
+

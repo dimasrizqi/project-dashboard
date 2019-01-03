@@ -1,0 +1,56 @@
+{% extends "base.html" %}{% load staticfiles %}
+{% block head_title %}
+		<title>Partner Detail - {% for partners in partner %}{{partners.partner_name}}{% endfor %} - Miniportal</title>{% endblock %}
+{% block style_css %}{% endblock %}
+{% block style_js %}{% endblock %}
+{% block content %}
+	<div class="uk-grid">
+		<div class="uk-width-3-10"></div>
+		<div class="uk-width-4-10">
+			<div class="uk-panel uk-panel-box uk-panel-box-secondary">
+				<h3 class="uk-panel-title">Contact Details Partner</h3>
+				<p>{% for partners in partner %}
+					<strong>{{partners.partner_name}}</strong>
+					<br>{{partners.partner_address}}
+					<!-- <br>Postal Zip Code -->
+				</p>
+				<h5 class="uk-text-bold uk-text-primary">Support</h5>
+				<p>
+					<span>{{partners.contact_support_name}}</span>
+					<br><a>{{partners.contact_support_email}}</a><br>
+					{{partners.contact_support_telp}}<br>
+					<a>{{partners.contact_support_web}}</a>
+				</p>
+				<h5 class="uk-text-bold uk-text-primary">Sales</h5>
+				<p>
+					<span class="">{{partners.contact_sales_name}}</span>
+					<br><a>{{partners.contact_sales_email}}</a><br>
+					{{partners.contact_sales_telp}}
+				</p>
+				<h5 class="uk-text-bold uk-text-primary">Manager <span class="uk-text-small">(for escalation)</span></h5>
+				<p>
+					<span>{{partners.contact_manager_name}}</span>
+					<br><a>{{partners.contact_manager_email}}</a><br>
+					{{partners.contact_manager_telp}}
+				</p>
+				<p>
+					<a href="{{partners.partner_web}}" target="blank"><span class="uk-icon-external-link"></span> {{partners.partner_web}}</a>  
+				</p>
+			</div>
+		</div>{% endfor %}
+		<div class="uk-width-3-10"></div>
+	</div>
+
+
+{% endblock %}
+			<div class="uk-grid">
+
+			</div>
+			
+				<h3 class="uk-h4">Follow Us</h3>
+				<p>
+					<a href="#" class="uk-icon-button uk-icon-external-link-square"></a>
+					<a href="#" class="uk-icon-button uk-icon-twitter"></a>
+					<a href="#" class="uk-icon-button uk-icon-dribbble"></a>
+					<a href="#" class="uk-icon-button uk-icon-html5"></a>
+				</p>

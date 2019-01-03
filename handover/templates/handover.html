@@ -1,0 +1,341 @@
+{% extends "base.html" %}{% load staticfiles %}
+{% block head_title %}{% for list in handover%}
+		<title>Status Handover Project - {{list.project_name}}</title>{% endfor %}{% endblock %}
+{% block style_css %}{% endblock %}
+{% block style_js %}
+		<script src="{% static 'js/components/sticky.js' %}"></script>{% endblock %}
+{% block content %}
+		<div class="uk-grid">{% for list in handover%}
+			<!-- <div class="uk-width-1-10"></div> -->
+			<!-- <div class="uk-width-8-10 uk-position-center uk-text-small"> -->
+			<div class="uk-width-5-6 uk-text-small">
+				<div class="">{% autoescape off %}
+					<span class="uk-h2" id="handover_status"> Handover Status: </span>
+				{% if list.handover_status %}
+					<span class="uk-h2 uk-text-success"><i class="uk-icon-check"></i> Success</span>
+				{% else %}
+					<span class="uk-h2 uk-text-danger">Pending <i class="uk-icon-exclamation"></i></span>
+					<p><span class="uk-badge">NOTE</span> <ul class="uk-list">{{list.handover_status_remark}}</ul></p>{% endif %}
+				</div>{% endautoescape %}
+				<hr class="uk-grid-divider">
+				<div class="uk-grid">
+					<div class="uk-width-1-2">
+							<h4 class="uk-panel-title uk-margin-small-bottom" id="customer_project">Customer Name</h4>
+							<span class="uk-h5">{{list.customer_name}}</span>
+					</div>
+					<div class="uk-width-1-2">
+							<h4 class="uk-panel-title uk-margin-small-bottom">Project Name</h4>
+							<span class="uk-h5">{{list.project_name}}</span>
+					</div>
+				</div>
+				<hr class="uk-grid-divider">
+				<h4 class="uk-text-primary" id="checklist_form">Checklist Form</h4>
+				<div class="uk-panel uk-panel-box" style="background: white;">
+					<ul class="uk-list uk-list-space">
+						<li>
+							<div class="uk-grid">
+								<div class="uk-width-3-5"><i class="uk-icon-caret-right"></i> Formulir Serah Terima Project</div>
+							{% if list.form_handover %}
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Ada</div>
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Belum Ada</div>
+							{% else %}
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Ada</div>
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Belum Ada</div>
+							</div>{% endif %}
+						</li>
+						<li>
+							<div class="uk-grid">
+								<div class="uk-width-3-5"><i class="uk-icon-caret-right"></i> Formulir BAST Project ITS</div>
+							{% if list.form_bast %}
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Ada</div>
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Belum Ada</div>
+							{% else %}
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Ada</div>
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Belum Ada</div>
+							</div>{% endif %}
+						</li>
+					</ul>
+				</div>
+				<hr class="uk-grid-divider">
+				<h4 class="uk-text-primary" id="checklist_document">Checklist Document</h4>
+				<div class="uk-panel uk-panel-box" style="background: white;">
+					<ul class="uk-list uk-list-space">
+						<li>
+							<div class="uk-grid">
+								<div class="uk-width-3-5"><i class="uk-icon-caret-right"></i> Scope of Work & BoQ (Proposal)</div>
+							{% if list.scope_of_work %}
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Ada</div>
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Tidak Diperlukan</div>
+							{% else %}
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Ada</div>	
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Tidak Diperlukan</div>
+							</div>
+							<div class="uk-panel uk-panel-box" style="background: white;">
+								<p>{{list.scope_of_work_remark}}</p>
+							</div>{% endif %}
+						</li>
+						<li>
+							<div class="uk-grid">
+								<div class="uk-width-3-5"><i class="uk-icon-caret-right"></i> Project Approval</div>
+							{% if list.project_approval %}
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Ada</div>
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Tidak Diperlukan</div>
+							{% else %}
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Ada</div>	
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Tidak Diperlukan</div>
+							</div>
+							<div class="uk-panel uk-panel-box" style="background: white;">
+								<p>{{list.project_approval_remark}}</p>
+							</div>{% endif %}
+						</li>
+						<li>
+							<div class="uk-grid">
+								<div class="uk-width-3-5"><i class="uk-icon-caret-right"></i> PO / Letter of Agreement</div>
+							{% if list.purchase_order %}
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Ada</div>
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Tidak Diperlukan</div>
+							{% else %}
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Ada</div>	
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Tidak Diperlukan</div>
+							</div>
+							<div class="uk-panel uk-panel-box" style="background: white;">
+								<p>{{list.purchase_order_remark}}</p>
+							</div>{% endif %}							
+						</li>
+						<li>
+							<div class="uk-grid">
+								<div class="uk-width-3-5"><i class="uk-icon-caret-right"></i> Service Level Agreement (Proposal/Contract)</div>
+							{% if list.sla %}
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Ada</div>
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Tidak Diperlukan</div>
+							{% else %}
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Ada</div>	
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Tidak Diperlukan</div>
+							</div>
+							<div class="uk-panel uk-panel-box" style="background: white;">
+								<p>{{list.sla_remark}}</p>
+							</div>{% endif %}	
+						</li>
+						<li>
+							<div class="uk-grid">
+								<div class="uk-width-3-5"><i class="uk-icon-caret-right"></i> Business Case (Appoved) disertai print email approval dari keuangan</div>
+							{% if list.business_case %}
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Ada</div>
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Tidak Diperlukan</div>
+							{% else %}
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Ada</div>	
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Tidak Diperlukan</div>
+							</div>
+							<div class="uk-panel uk-panel-box" style="background: white;">
+								<p>{{list.business_case_remark}}</p>
+							</div>{% endif %}	
+						</li>
+						<li>
+							<div class="uk-grid">
+								<div class="uk-width-3-5"><i class="uk-icon-caret-right"></i> Design Configuration (High Level Design) (Proposal)</div>
+							{% if list.proposal_to_customer_hld %}
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Ada</div>
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Tidak Diperlukan</div>
+							{% else %}
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Ada</div>	
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Tidak Diperlukan</div>
+							</div>
+							<div class="uk-panel uk-panel-box" style="background: white;">
+								<p>{{list.proposal_to_customer_hld_remark}}</p>
+							</div>{% endif %}	
+						</li>
+						<li>
+							<div class="uk-grid">
+								<div class="uk-width-3-5"><i class="uk-icon-caret-right"></i> Technical & Delivery Assurance (Proposal)</div>
+							{% if list.proposal_to_customer_tda %}
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Ada</div>
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Tidak Diperlukan</div>
+							{% else %}
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Ada</div>	
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Tidak Diperlukan</div>
+							</div>
+							<div class="uk-panel uk-panel-box" style="background: white;">
+								<p>{{list.proposal_to_customer_tda_remark}}</p>
+							</div>{% endif %}
+						</li>	
+						<li>
+							<div class="uk-grid">
+								<div class="uk-width-3-5"><i class="uk-icon-caret-right"></i> Partner / Priciple Information (SO/SPK)</div>
+							{% if list.partner_document_so_spk %}
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Ada</div>
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Tidak Diperlukan</div>
+							{% else %}
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Ada</div>	
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Tidak Diperlukan</div>
+							</div>
+							<div class="uk-panel uk-panel-box" style="background: white;">
+								<p>{{list.partner_document_so_spk_remark}}</p>
+							</div>{% endif %}
+						</li>
+						<li>
+							<div class="uk-grid">
+								<div class="uk-width-3-5"><i class="uk-icon-caret-right"></i> Product / Service Spesification (Dokumentasi Design)</div>
+							{% if list.product_spesification %}
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Ada</div>
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Tidak Diperlukan</div>
+							{% else %}
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Ada</div>	
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Tidak Diperlukan</div>
+							</div>
+							<div class="uk-panel uk-panel-box" style="background: white;">
+								<p>{{list.product_spesification_remark}}</p>
+							</div>{% endif %}
+						</li>
+						<li>
+							<div class="uk-grid">
+								<div class="uk-width-3-5"><i class="uk-icon-caret-right"></i> Configuration (Low Level Design) (Dokumentasi Design)</div>
+							{% if list.implementation_document_lld %}
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Ada</div>
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Tidak Diperlukan</div>
+							{% else %}
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Ada</div>	
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Tidak Diperlukan</div>
+							</div>
+							<div class="uk-panel uk-panel-box" style="background: white;">
+								<p>{{list.implementation_document_lld_remark}}</p>
+							</div>{% endif %}
+						</li>
+						<li>
+							<div class="uk-grid">
+								<div class="uk-width-3-5"><i class="uk-icon-caret-right"></i> Working Instruction (Service operation)</div>
+							{% if list.wi_operation %}
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Ada</div>
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Tidak Diperlukan</div>
+							{% else %}
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Ada</div>	
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Tidak Diperlukan</div>
+							</div>
+							<div class="uk-panel uk-panel-box" style="background: white;">
+								<p>{{list.wi_operation_remark}}</p>
+							</div>{% endif %}
+						</li>
+						<li>
+							<div class="uk-grid">
+								<div class="uk-width-3-5"><i class="uk-icon-caret-right"></i> Working Instruction (Service operation)</div>
+							{% if list.wi_customer_care %}
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Ada</div>
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Tidak Diperlukan</div>
+							{% else %}
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Ada</div>	
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Tidak Diperlukan</div>
+							</div>
+							<div class="uk-panel uk-panel-box" style="background: white;">
+								<p>{{list.wi_customer_care_remark}}</p>
+							</div>{% endif %}
+						</li>
+						<li>
+							<div class="uk-grid">
+								<div class="uk-width-3-5"><i class="uk-icon-caret-right"></i> Contact Person untuk Customer dan Vendor</div>
+							{% if list.contact_person_customer_vendor %}
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Ada</div>
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Tidak Diperlukan</div>
+							{% else %}
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Ada</div>	
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Tidak Diperlukan</div>
+							</div>
+							<div class="uk-panel uk-panel-box" style="background: white;">
+								<p>{{list.contact_person_customer_vendor_remark}}</p>
+							</div>{% endif %}
+						</li>
+						<li>
+							<div class="uk-grid">
+								<div class="uk-width-3-5"><i class="uk-icon-caret-right"></i> Handover Budget (Jumlah Refill Minus)</div>
+							{% if list.handover_budget %}
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Ada</div>
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Tidak Diperlukan</div>
+							{% else %}
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Ada</div>	
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Tidak Diperlukan</div>
+							</div>
+							<div class="uk-panel uk-panel-box" style="background: white;">
+								<p>{{list.handover_budget_remark}}</p>
+							</div>{% endif %}
+						</li>
+						<li>
+							<div class="uk-grid">
+								<div class="uk-width-3-5"><i class="uk-icon-caret-right"></i> UAT yang ditandatangani oleh pelanggan</div>
+							{% if list.user_acceptance_test %}
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Ada</div>
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Tidak Diperlukan</div>
+							{% else %}
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Ada</div>	
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Tidak Diperlukan</div>
+							</div>
+							<div class="uk-panel uk-panel-box" style="background: white;">
+								<p>{{list.user_acceptance_test_remark}}</p>
+							</div>{% endif %}
+						</li>
+						<li>
+							<div class="uk-grid">
+								<div class="uk-width-3-5"><i class="uk-icon-caret-right"></i> BAST Document yang ditandatangani oleh pelanggan</div>
+							{% if list.bast_to_customer %}
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Ada</div>
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Tidak Diperlukan</div>
+							{% else %}
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Ada</div>	
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Tidak Diperlukan</div>
+							</div>
+							<div class="uk-panel uk-panel-box" style="background: white;">
+								<p>{{list.bast_to_customer_remark}}</p>
+							</div>{% endif %}
+						</li>
+						<li>
+							<div class="uk-grid">
+								<div class="uk-width-3-5"><i class="uk-icon-caret-right"></i> BAST Vendor yang ditandatangani oleh Delivery</div>
+							{% if list.bast_from_partner %}
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Ada</div>
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Tidak Diperlukan</div>
+							{% else %}
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Ada</div>	
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Tidak Diperlukan</div>
+							</div>
+							<div class="uk-panel uk-panel-box" style="background: white;">
+								<p>{{list.bast_from_partner_remark}}</p>
+							</div>{% endif %}
+						</li>
+						<li>
+							<div class="uk-grid">
+								<div class="uk-width-3-5"><i class="uk-icon-caret-right"></i> Daftar Nomer Jaringan Acuan</div>
+							{% if list.no_jaringan_acuan %}
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Ada</div>
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Tidak Diperlukan</div>
+							{% else %}
+								<div class="uk-width-1-5"><i class="uk-icon-square-o"></i> Ada</div>	
+								<div class="uk-width-1-5"><i class="uk-icon-check-square-o"></i> Tidak Diperlukan</div>
+							</div>
+							<div class="uk-panel uk-panel-box" style="background: white;">
+								<p>{{list.no_jaringan_acuan_remark}}</p>
+							</div>{% endif %}
+						</li>
+					</ul>
+				</div>
+				<p><span class="uk-badge">NOTE</span> Checklist document berdasarkan dokumen yang sudah diunggah ke ServiceDesk Plus (SDP)</p>
+				<hr class="uk-grid-divider">
+				<h4 class="uk-text-primary" id="remark">Remark</h4>
+				<div class="uk-width-1-1">{{ list.notes}}</div>
+				<hr class="uk-grid-divider">
+			</div>
+			<!-- <div class="uk-width-1-10"></div> -->
+			<div class="uk-width-medium-1-6 uk-text-small">
+				<div class="uk-sticky-placeholder" style="height: 270px; margin: 0px;">
+					<div class="uk-panel uk-panel-box" data-uk-sticky="{top:35}" style="margin: 0px;">
+					<ul class="uk-nav uk-nav-side" data-uk-scrollspy-nav="{closest:'li', smoothscroll:true}">
+						<li class="uk-nav-header">Right Menu</li>
+						<li class=""><a href="#handover_status">Handover Status</a></li>
+						<li class=""><a href="#customer_project">Customer & Project Name</a></li>
+						<li class=""><a href="#checklist_form">Checklist Form</a></li>
+						<li class=""><a href="#checklist_document">Checklist Document</a></li>
+						<li class=""><a href="#remark">Remark</a></li>
+						<li class="uk-nav-header">Dashboard</li>
+						<li class=""><a href="{% url 'handover:handover_dashboard' %}">All Handover Project</a></li>
+					</ul>
+					</div>
+				</div>
+			</div>
+		</div>{% endfor %}
+{% endblock %}

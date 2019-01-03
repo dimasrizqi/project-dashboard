@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block head_title %}
+		<title>Login - Miniportal</title>{% endblock %}
+{% block style_css %}{% endblock %}
+{% block style_js %}{% endblock %}
+{% block content %}<br>
+		<div class="uk-text-center">
+			<div class="uk-margin-large-top">
+			{% if form.errors %}
+				<p class="uk-text-danger">Your username and password didn't match. Please try again.</p>
+			{% endif %}
+			{% if next %}
+				{% if user.is_authenticated %}
+				<p class="uk-text-danger">Your account doesn't have access to this page. To proceed, please login with an account that has access.</p>
+				{% else %}
+				<p>Please login to see this page.</p>
+				{% endif %}
+			{% endif %}
+			</div>
+
+			<div class="uk-vertical-align-middle uk-margin-top" style="width: 265px;">
+				<div class="uk-panel uk-border-rounded" style="padding:9px 9px 9px 9px; background-color:#444; color: white; ">Miniportal | Project Operation</div>
+				<form class="uk-panel uk-panel-box uk-form" method="post" action="{% url 'login' %}">{% csrf_token %}
+					<div class="uk-form-row">
+						<i class="uk-icon-user"></i> user {{ form.username }} 
+					</div>
+					<div class="uk-form-row">
+						<i class="uk-icon-lock"></i> pass {{ form.password }}
+					</div>
+					<div class="uk-grid uk-margin-top">
+						<div class="uk-width-1-2">
+							<input class="uk-width-1-1 uk-button uk-button-primary uk-link" type="submit" value="login"  style="padding:5px 5px 5px 5px; color: white; border-radius: 5px; background-color:#444;">
+							<input type="hidden" name="next" value="{{ next }}">
+						</div>
+						<div class="uk-width-1-2">
+							<a class="uk-button uk-button-primary uk-text-center uk-text-nowrap" style="padding:1px 10px 1px 10px; background-color:#444;" href="mailto:aliaman.harahap@lintasarta.co.id?Subject=Request%20Account">new account</a>
+						</div>
+					</div>
+				</form>
+			</div>
+
+		</div>
+{% endblock %}

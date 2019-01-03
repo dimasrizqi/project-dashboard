@@ -1,0 +1,164 @@
+{% extends "base.html" %}{% load staticfiles %}
+{% block head_title %}
+		<title>MOM Serah Terima Project</title>{% endblock %}
+{% block style_css %}
+{% endblock %}
+{% block style_js %}{% endblock %}
+{% block content %}
+
+{% for var_mom in momnya %}
+
+
+<div class="uk-grid">
+	<div class="uk-width-3-6"><img src="https://s.republika.co.id/uploads/images/inpicture_slide/151116213204-998.png" width="200px" height="200px">
+	</div>
+	<div class="uk-width-3-6">
+		<h2>ITS APPLICATION OPERATION<br>
+   			PROJECT<br>
+    		Minutes of Meeting<br>
+    	</h2>
+
+	</div>
+</div>
+<div class="uk-grid">
+	<div class="uk-width-6-6 uk-overflow-auto" >
+		
+		<table class="uk-table  	uk-table-justify" >
+			<tr>
+				<td>
+					Meeting Purpose 
+				</td>
+				<td>
+					:
+				</td>
+				<td>
+					{{var_mom.project}}
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Meeting Location:
+				</td>
+				<td>
+					:
+				</td>
+				<td>
+					{{var_mom.meeting_location}}
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Meeting Attendees<br>
+					<i><small>(Names & Company)</small></i>
+				</td>
+				<td>
+					:
+				</td>
+				<td>
+					{{var_mom.attendees|linebreaks }}
+				</td>
+			</tr>
+		</table>
+	</div>
+	<!-- <div class="uk-width-4-6">
+		
+	</div> -->
+</div>
+<div class="uk-grid">
+	<div class="uk-width-6-6">
+		<ol>
+			<li> Durasi Project
+			<ol style="list-style-type: lower-alpha;">
+				<li>Start Project : {{var_mom.start_project}} </li>
+				<li>End Project : {{var_mom.end_project}}</li>
+			</ol>
+			</li>
+			<i>Catatan:</i><br>
+			<table class="uk-table uk-table-justify" >
+				<tr >
+					<td>
+					{{var_mom.catatan_durasi_project}}
+					</td>
+				</tr>
+			</table>
+			<div class="uk-width-6-6 uk-overflow-auto" >
+			<li> Preventive Maintenance
+			<ol style="list-style-type: lower-alpha;">
+				<li>Uraian Pekerjaan PM : {{var_mom.uraian_pekerjaan_pm}}</li>
+				<li>Waktu : {{var_mom.waktu_pelaksanaan_pm}} </li>
+				<li>Lokasi : {{var_mom.lokasi_pm}}</li>
+				<li>Daftar Perangkat : {{var_mom.daftar_perangkat_pm}}</li>
+			</ol>
+			</li>
+			<i>Catatan:</i><br>
+			<table class="uk-table uk-table-justify" >
+				<tr >
+					<td>
+					{{var_mom.catatan_pm}}
+					</td>
+				</tr>
+			</table>
+			<li>SLA
+			<ol style="list-style-type: lower-alpha;">
+				<li>Customer : {{var_mom.sla_to_customer}}</li>
+				<li>Vendor/Partner : {{var_mom.sla_to_partner}}</li>
+			</ol>
+			</li>
+			<i>Catatan:</i><br>
+			<table class="uk-table uk-table-justify" >
+				<tr >
+					<td>
+					{{var_mom.catatan_sla}}
+					</td>
+				</tr>
+			</table>
+			<li>Anggaran Operational
+			<ol style="list-style-type: lower-alpha;">
+				<li>OPEX per bulan/tahun : {{var_mom.anggaran_opex_perbulan_or_pertahun}} </li>
+				<li>CAPEX per bulan/tahun : {{var_mom.anggaran_capex_perbulan_or_pertahun}}</li>
+				<li>Total Anggaran Operasional : {{var_mom.total_anggaran_operational}}</li>
+			</ol>
+			</li>
+			<i>Catatan:</i><br>
+				<table class="uk-table uk-table-justify" >
+					<tr >
+						<td>
+						{{var_mom.catatan_anggaran_operational}}
+						</td>
+					</tr>
+				</table>
+			<li>Scope of Work
+			</li>
+			<table class="uk-table uk-table-justify" >
+				<tr >
+					<td>
+					{{var_mom.scope_of_work}}
+					</td>
+				</tr>
+			</table>
+			<li>Contact
+			</li>
+			<table class="uk-table uk-table-justify" >
+				<tr >
+					<td>
+						{{var_mom.contact}}
+					</td>
+				</tr>
+			</table>
+			<li><i>Catatan tambahan selama meeting:</i><br>
+			<table class="uk-table uk-table-justify" >
+			<tr >
+				<td>
+				{{var_mom.catatan_tambahan}}
+				</td>
+			</tr>
+			</table>	
+			</li>
+		</ol>
+		
+	</div>
+	
+</div>
+{% endfor %}
+{% endblock %}
+			

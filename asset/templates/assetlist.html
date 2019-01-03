@@ -1,0 +1,18 @@
+{% extends "base.html" %}{% load staticfiles %}
+{% block head_title %}{% endblock %}
+{% block style_css %}{% endblock %}
+{% block style_js %}{% endblock %}
+{% block content %}
+		{% for assets in asset %}
+		<div class="">
+			<ul class="uk-list uk-list-striped">
+				<li>{% for list in assets.project.customer.all %} {{ list.customer_name }} {% endfor %}</li>
+				<li>{{assets.asset_name}}</li>
+				<li>{{assets.sn}}</li>
+				<li>{{assets.no_registrasi}}</li>
+				<li>{{assets.spec}}</li>
+				<li>{{assets.remark}}</li>
+			</ul>
+		</div>
+		{% endfor %}
+{% endblock %}

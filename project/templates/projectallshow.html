@@ -1,0 +1,256 @@
+{% extends "base.html" %}{% load staticfiles %}
+{% block head_title %}
+		<title>Project Detail - Miniportal</title>{% endblock %}
+{% block style_css %}
+		<link rel="stylesheet" href="{% static 'css/components/accordion.min.edit.css' %}">
+		<link rel="stylesheet" href="{% static 'css/components/tooltip.min.css' %}">{% endblock %}
+{% block style_js %}
+		<script src="{% static 'js/components/accordion.js' %}"></script>
+		<script src="{% static 'js/components/tooltip.js' %}"></script>{% endblock %}
+{% block content %}
+
+{% load staticfiles %}
+{% block extrahead %}
+    <!-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script>
+
+       var randomColorGenerator = function () {
+            return '#' + (Math.random().toString(16) + '0000000').slice(2, 8);
+        };
+
+       //grafik perpanjang kontrak
+        window.onload = function () {
+            var ctx = document.getElementById("perpanjangan-chart");
+            var lineChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels : ['ARO  {{project_contract_aronya}}','NON ARO : {{project_contract_non_aronya}}','NOT SET : {{project_contract_aro_notsetnya}}', 'Total Kontrak : {{ showallcontractnya.count }}'],
+                    datasets: [{
+                        
+                        data: ['{{project_contract_aronya}}','{{project_contract_non_aronya}}','{{project_contract_aro_notsetnya}}','0'],
+                        backgroundColor: ['#FF0033','#1E90FF ','yellow','#FF1493 ']
+                    }]
+                },
+                options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            legend: {
+                position: 'left'
+            },
+            title: {
+                display: false
+            },
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            }
+        }
+            });     
+            //grafik kelengkapan kontrak
+            ctx = document.getElementById("kelengkapan-kontrak-chart");
+            lineChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels : ['Total Kontrak : {{ showallcontractnya.count }}','Total Project : {{ showallprojectnya.count }}'],
+                    datasets: [{
+                        
+                        data: ['{{ showallcontractnya.count }}','{{ showallprojectnya.count }}'],
+                        backgroundColor: ['#1E90FF ','#FF8C00']
+                    }]
+                },
+                options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            legend: {
+                position: 'left'
+            },
+            title: {
+                display: false
+            },
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            }
+        }
+            }); 
+            //project partner
+            ctx = document.getElementById("project-partner-chart");
+            linehart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+              labels : ['Vendor : {{project_by_vendornya.count}}','Lintas Arta : {{project_by_lanya.count}}'],
+              datasets: [{
+                  
+                  data: ['{{project_by_vendornya.count}}','{{project_by_lanya.count}}'],
+                  backgroundColor: ['#FF1493 ','#FFFF33']
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: true,
+              legend: {
+                  position: 'left'
+              },
+              title: {
+                display: false
+              },
+              animation: {
+                animateScale: true,
+                animateRotate: true
+              }
+            }
+            }); 
+                //data set partner handle
+            var cv = document.getElementById("partner-handle-chart");
+            var ctx2 = cv.getContext('2d');
+            var chartpartnerhandle = new Chart(ctx2, {
+                type: 'horizontalBar',
+                data: {
+                  labels: [{%for partner_for in partnernya%}'{{partner_for.partner_alias}}',{% endfor %}],
+                  datasets: [
+                    {
+                      label: "",
+                      // backgroundColor: [{%for partner_for in partnernya %} randomColorGenerator(),{% endfor %}],
+                      backgroundColor: ['#FF0033','#1E90FF ','#FF8C00','#FF1493 ','#FFFF33','#7FFF00','#8B008B','#808080', '#00FFFF','#000000'],
+                      data: [ '{{project_by_lmdnya.count}}','{{project_by_lanya.count}}','{{project_by_3nya.count}}','{{project_by_4nya.count}}','{{project_by_5nya.count}}','{{project_by_6nya.count}}','{{project_by_7nya.count}}','{{project_by_8nya.count}}','{{project_by_9nya.count}}','{{project_by_10nya.count}}',]
+                    }
+                  ]
+                },
+                options: {
+                scales: {
+                        yAxes: [{
+                           barPercentage: 1,
+                           gridLines: {
+                             display: false
+                           }
+                        }],
+                        xAxes: [{
+                          gridLines: {
+                            zeroLineColor: "red",
+                            zeroLineWidth: 3
+                          },
+                          ticks: {
+                            min: 0,
+                            max: 30,
+                            stepSize: 2
+                          },
+                          scaleLabel: {
+                            display: true,
+                            labelString: "Grafik partner berdasarkan project yang dihandle"
+                          }
+                        }]
+                      },
+                legend: { display: false },
+                //untuk dapat di klik sesuai label atau isi nya
+                onClick:function(e){
+                  //get event element click 
+                  var activePoints = chartpartnerhandle.getElementsAtEvent(e);
+                  // var selectedIndex = activePoints[0]._index;
+                  //event get from aray
+                  var selectedIndex = activePoints[0]._model["label"];
+                  window.location = ("partner/"+selectedIndex);
+                  // console.log(selectedIndex);
+                  },
+                title: {
+                    display: true,
+                    text: 'Total Vendor {{partner_exlanya.count}}'
+                  }
+                },
+            }); 
+            // cv.onclick = function (evt) {
+            //   var activePoint = chartpartnerhandle.getElenebtAtEvent(evt);
+            //   console.log(activePoint[0]["label"])
+            // };
+            
+
+            // grafik kategori project
+            ctx = document.getElementById("kategori-project-chart");
+            lineChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                  labels: [{%for project_categorynya_for in project_categorynya %}'{{project_categorynya_for.project_category}}',{% endfor %}],
+                  datasets: [
+                    {
+                      label: "",
+                      backgroundColor: ['#FF0033','#1E90FF ','#FF8C00','#FF1493 ','yellow','blue'],
+                      data: [ '{{var_project_project_category1nya.count}}','{{var_project_project_category2nya.count}}','{{var_project_project_category3nya.count}}','{{var_project_project_category4nya.count}}','{{var_project_project_category5nya.count}}','{{var_project_project_category6nya.count}}']
+                    }
+                  ]
+                },
+                options: {
+                    scales: {
+                            yAxes: [{
+                               barPercentage: 0.5,
+                               gridLines: {
+                                 display: false
+                               }
+                            }],
+                            xAxes: [{
+                              gridLines: {
+                                zeroLineColor: "black",
+                                zeroLineWidth: 5
+                              },
+                              ticks: {
+                                min: 0,
+                                max: 30,
+                                stepSize: 2
+                              },
+                              scaleLabel: {
+                                display: true,
+                                labelString: "Grafik kategori project"
+                              }
+                            }]
+                          },
+                  legend: { display: false },
+                  title: {
+                    display: true,
+                    text: ''
+                  }
+                }
+            }); 
+           
+       }
+    </script>
+{% endblock %}
+    <h1> Graphs </h1>
+    <hr>
+    <div >
+         <div style="border: 2px solid red; border-radius: 12px; padding: 5px 5px 5px 5px ;margin-bottom:10px;">
+            <h4 >Grafik Partner</h4>
+            <canvas id="partner-handle-chart"></canvas>
+        </div>
+        <div <div style="border: 2px solid blue; border-radius: 12px; padding: 5px 5px 5px 5px ; margin-bottom:10px;">
+        	<h4>Status perpanjangan kontrak ke Customer</h4>
+            total project : {{ showallprojectnya.count }} project <br>
+            total Kontrak Project : {{ showallcontractnya.count }}<br>
+            total project kontrak ARO : {{project_contract_aronya}} <br>
+            total project kontrak NON ARO : {{project_contract_non_aronya}}<br>
+            total project kontrak Belum set perpanjang : {{project_contract_aro_notsetnya}}<br>
+            <canvas id="perpanjangan-chart"></canvas>
+        </div>
+        <div style="border: 2px solid orange; border-radius: 12px; padding: 5px 5px 5px 5px ;margin-bottom:10px;">
+            <h4 >Grafik Kategori Project</h4>
+            
+            <canvas id="kategori-project-chart"></canvas>
+        </div>
+        <div style="border: 2px solid yellow; border-radius: 12px; padding: 5px 5px 5px 5px; margin-bottom:10px;">
+            <h4>Grafik kelengkapan kontrak</h4>
+            total project : {{ showallprojectnya.count }} project <br>            
+            total Kontrak Project : {{ showallcontractnya.count }}<br>
+            <canvas id="kelengkapan-kontrak-chart"></canvas>
+        </div>
+   
+        <div style="border: 2px solid green; border-radius: 12px; padding: 5px 5px 5px 5px ;margin-bottom:10px;">
+            <h4>Grafik Project Partner</h4>
+            total Project manage by Vendor : {{project_by_vendornya.count}} <br>
+            total Project manage by Lintas Arta : {{project_by_lanya.count}}<br>
+            <canvas id="project-partner-chart"></canvas>
+        </div>
+       
+    </div>
+</body>
+</html>
+{% endblock %}
