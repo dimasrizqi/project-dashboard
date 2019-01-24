@@ -1,0 +1,53 @@
+{% extends "base.html" %}{% load staticfiles %}
+{% block head_title %}
+		<title>Home - Mini Portal</title>{% endblock %}
+{% block style_css %}
+		<link rel="stylesheet" href="{% static 'css/components/accordion.min.edit.css' %}">
+		<link rel="stylesheet" href="{% static 'css/components/tooltip.min.css' %}">{% endblock %}
+{% block style_js %}
+		<script src="{% static 'js/components/accordion.js' %}"></script>
+		<script src="{% static 'js/components/tooltip.js' %}"></script>{% endblock %}
+{% block content %}
+
+{% load staticfiles %}
+{% block extrahead %}
+    
+{% endblock %}
+{% include "snippets/navbar.html" %}
+
+<div class="uk-accordion-content uk-active shadow " style="margin-top: 85px;padding: 5px;">
+  <h1><u>List Status Project : {{ statusnya }}</u></h1><br>
+
+  <ol>
+  {% for a in projectstatusnya %}
+  <li>
+  <a href="../../{{ a.project_id }}">{{ a }}<br>
+  </li>
+  {% endfor %}<br>
+  </ol>
+</div>
+
+
+
+
+<div class="uk-panel uk-panel-box uk-text-center uk-margin-small-top" style="padding:9px 9px 9px 9px;">
+    <p><img src="{% static 'img/icons/dj64.ico' %}" height="16" width="16"> <a class="uk-link-muted" href="http://www.djangoproject.com" target="_blank">django</a> | <a class="uk-link-muted" href="#" target="_blank"><strong> © </strong>Dashboard Monitoring Project</a>  | <a href="https://www.linkedin.com/company/lintasarta/" target="_blank"><img src="https://www.lintasarta.net/wp-content/uploads/2018/06/xlinkedin-logo.png.pagespeed.ic.v4fxkCsCxE.webp" height="16" width="16"class="img-fluid"></a>
+      
+            
+              <a href="https://twitter.com/Lintasarta" target="_blank"><img src="https://www.lintasarta.net/wp-content/uploads/2018/06/xtwitter-logo.png.pagespeed.ic.vop4jPiDG6.webp" height="16" width="16" class="img-fluid"></a>
+      
+            
+              <a href="https://www.instagram.com/lintasarta.official" target="_blank"><img src="https://www.lintasarta.net/wp-content/uploads/2018/06/xinstagram-logo.png.pagespeed.ic.pO-8N7fpIT.webp" height="16" width="16"class="img-fluid"></a>
+      
+            
+              <a href="https://www.facebook.com/lintasarta.official/" target="_blank"><img src="https://www.lintasarta.net/wp-content/uploads/2018/06/xfacebook-logo.png.pagespeed.ic.tgvhO7jcl_.webp" height="16" width="16" class="img-fluid"></a>
+      
+            
+              <a href="https://www.youtube.com/user/aplikanusaLintasarta" target="_blank"><img src="https://www.lintasarta.net/wp-content/uploads/2018/06/xyoutube-logo.png.pagespeed.ic.qcBGMLKyRB.webp" height="16" width="16" class="img-fluid"></a>
+      </p>
+
+  </div>
+</body>
+</html>
+{% endblock %}
+

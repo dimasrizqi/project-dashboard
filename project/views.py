@@ -1,10 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from . models import Project, Momserahterima, Customer, Order, Partner, Lintasartaperson, Contract, Projectcategory
+from . models import Project, Projectstatus,Momserahterima, Customer, Order, Partner, Lintasartaperson, Contract, Projectcategory
 from datetime import datetime
-
-
 
 #custom function
 def contract_lessthan3month (rawdata):
@@ -28,6 +26,40 @@ def contract_lessthan2month (rawdata):
 				lessthan2month = data.project_id
 				my_list.append(str(lessthan2month))
 	return my_list
+
+def kategori(request,kategori):
+	var_kategori = Projectcategory.objects.get(project_category=kategori)
+	#print(var_kategori.project_category_id)
+	var_showallproject = Project.objects.all()
+	var_project_project_category = var_showallproject.filter(project_category=var_kategori)
+	# print(var_project_project_category.all().project_id)
+	return render(request, "kategori.html", {
+		'project_project_category1':var_project_project_category, 
+		'kategorinya' : var_kategori,
+		});
+
+def customer(request,customer):
+	var_showallproject = Project.objects.all()
+	var_customer = var_showallproject.get(project_id=customer)
+	print(var_customer.project_name)
+	print(var_customer.customer[customer_name])
+	print(var_customer.scope_detail)
+	print(var_customer.scope_summary)
+	return render(request, "customer.html", {
+		'customer' : var_customer,
+		'showallproject':var_showallproject,
+		});
+
+def status(request,status):
+	var_status = Projectstatus.objects.get(status=status)
+	#print(var_status.project_status_id)
+	var_showallproject = Project.objects.all()
+	var_project_status = var_showallproject.filter(project_status=var_status)
+	return render(request, "status.html", {
+		'statusnya' : var_status,
+		'projectstatusnya' : var_project_status,		
+		});
+
 
 def home_miniportal(request):
 	if request.user.is_anonymous():

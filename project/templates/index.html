@@ -19,8 +19,8 @@
         window.onload = function () {
               
             // grafik kategori project
-             ctx = document.getElementById("kategori-project-chart");
-             lineChart = new Chart(ctx, {
+             ctxxx = document.getElementById("kategori-project-chart");
+             chart_kategori = new Chart(ctxxx, {
                 type: 'pie',
                 width:800,
                         height:800,
@@ -79,12 +79,12 @@
                           },
                   //untuk dapat di klik sesuai label atau isi nya
                   onClick:function(e){
-                  var activePoints = lineChart.getElementsAtEvent(e);
-                  if(activePoints.length > 0)
+                  var activePoints_kategori = chart_kategori.getElementsAtEvent(e);
+                  if(activePoints_kategori.length > 0)
                   {
-                  var selectedIndex = activePoints[0]._model["label"];
-                  window.location = ("kategori/"+selectedIndex);
-                   // console.log(selectedIndex);
+                  var selectedIndex = activePoints_kategori[0]._model["label"];
+                  window.location = ("project/kategori/"+selectedIndex);
+                 // console.log(selectedIndex);
                   }
                     },
                   title: {
@@ -158,7 +158,7 @@
                   if(activePoints.length > 0)
                   {
                   var selectedIndex = activePoints[0]._model["label"];
-                  window.location = ("kategori/"+selectedIndex);
+                  window.location = ("project/status/"+selectedIndex);
                    // console.log(selectedIndex);
                   }
                     },
@@ -168,6 +168,7 @@
                           }
                 }
             }); 
+
            var cv = document.getElementById("partner-handle-chart");
             var ctx2 = cv.getContext('2d');
             var chartpartnerhandle = new Chart(ctx2, {
@@ -198,7 +199,7 @@
                           },
                           ticks: {
                             min: 0,
-                            max: 30,
+                            max: 26,
                             stepSize: 2
                           },
                           scaleLabel: {
@@ -316,12 +317,12 @@
   <div class="uk-grid">
     <div class="uk-width-medium-2-4 ">
       <div class="uk-panel uk-panel-box shadow" style="padding:5px 5px 5px 5px; margin-bottom: 5px">
-      <h6 class="uk-text-bold">Project Status</h6>
+      <h6 class="uk-text-bold">Partner Handle</h6>
       <canvas id="partner-handle-chart" style="margin-top: -35px; position: relative; height:40vh; width:80vw"> </canvas>
       </div>
     </div>
-
-</div>
+    </div>
+  </div>
 
 
 
