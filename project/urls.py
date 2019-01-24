@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'^(?P<customer>[0-9]+)$', views.customer),
     url(r'^kategori/(?P<kategori>[\w\s]+)/$', views.kategori),
     url(r'^status/(?P<status>[\w\s]+)/$', views.status),
-    url(r'^partner/LMD/$', views.partnerlmd ),
+    # url(r'^partner/?P<partner[\w]>/$', views.partner ),
     url(r'^partner/LA/$', views.partnerla),
     url(r'^partner/IBID/$', views.partneribid),
     url(r'^partner/IBM/$', views.partneribm),

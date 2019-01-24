@@ -27,39 +27,70 @@ def contract_lessthan2month (rawdata):
 				my_list.append(str(lessthan2month))
 	return my_list
 
+def list(request):
+	if request.user.is_anonymous():
+		return HttpResponseRedirect(reverse('login')+ '%s'%('?next=') + request.get_full_path())
+	elif request.user.is_authenticated:
+		var_projectlist = Project.objects.exclude(project_status__exact=3)
+		return render(request, 'projectlist.html', {
+														'projectlist': var_projectlist,
+													})
+	else:
+		return HttpResponseRedirect(reverse('login')+ '%s'%('?next=') + request.get_full_path())
+
+def partnerdetail(request, partner_id):
+	if request.user.is_anonymous():
+		return HttpResponseRedirect(reverse('login')+ '%s'%('?next=') + request.get_full_path())
+	elif request.user.is_staff:
+		var_partner =  Partner.objects.filter(partner_id__exact=partner_id)
+		return render(request, 'partnerdetail.html', {
+														'partner': var_partner,
+													})
+	else:
+		return render(request, 'test.html')
+
+
 def kategori(request,kategori):
-	var_kategori = Projectcategory.objects.get(project_category=kategori)
-	#print(var_kategori.project_category_id)
-	var_showallproject = Project.objects.all()
-	var_project_project_category = var_showallproject.filter(project_category=var_kategori)
-	# print(var_project_project_category.all().project_id)
-	return render(request, "kategori.html", {
+	if request.user.is_anonymous():
+		return HttpResponseRedirect(reverse('login')+ '%s'%('?next=') + request.get_full_path())
+	elif request.user.is_staff:
+		var_showallproject = Project.objects.all()
+		var_kategori = Projectcategory.objects.get(project_category=kategori)
+		var_project_project_category = var_showallproject.filter(project_category=var_kategori)
+		return render(request, "kategori.html", {
 		'project_project_category1':var_project_project_category, 
 		'kategorinya' : var_kategori,
-		});
+		})
+	else:
+		return render(request, 'test.html')
 
 def customer(request,customer):
-	var_showallproject = Project.objects.all()
-	var_customer = var_showallproject.get(project_id=customer)
-	print(var_customer.project_name)
-	print(var_customer.customer[customer_name])
-	print(var_customer.scope_detail)
-	print(var_customer.scope_summary)
-	return render(request, "customer.html", {
+	if request.user.is_anonymous():
+		return HttpResponseRedirect(reverse('login')+ '%s'%('?next=') + request.get_full_path())
+	elif request.user.is_staff:
+		var_showallproject = Project.objects.all()
+		var_customer = var_showallproject.get(project_id=customer)
+		return render(request, "customer.html", {
 		'customer' : var_customer,
 		'showallproject':var_showallproject,
-		});
+		})
+	else:
+		return render(request, 'test.html')
 
 def status(request,status):
-	var_status = Projectstatus.objects.get(status=status)
-	#print(var_status.project_status_id)
-	var_showallproject = Project.objects.all()
-	var_project_status = var_showallproject.filter(project_status=var_status)
-	return render(request, "status.html", {
+	if request.user.is_anonymous():
+		return HttpResponseRedirect(reverse('login')+ '%s'%('?next=') + request.get_full_path())
+	elif request.user.is_staff:
+		var_status = Projectstatus.objects.get(status=status)
+		var_showallproject = Project.objects.all()
+		var_project_status = var_showallproject.filter(project_status=var_status)
+		return render(request, "status.html", {
 		'statusnya' : var_status,
 		'projectstatusnya' : var_project_status,		
 		});
-
+	else:
+		return render(request, 'test.html')
+    
 
 def home_miniportal(request):
 	if request.user.is_anonymous():
@@ -136,29 +167,9 @@ def home_miniportal(request):
 	else:
 		return HttpResponseRedirect(reverse('login')+ '%s'%('?next=') + request.get_full_path())
 
-def list(request):
-	if request.user.is_anonymous():
-		# return HttpResponseRedirect(reverse('login'))
-		return HttpResponseRedirect(reverse('login')+ '%s'%('?next=') + request.get_full_path())
-	elif request.user.is_authenticated:
-		var_projectlist = Project.objects.exclude(project_status__exact=3)
-		return render(request, 'projectlist.html', {
-														'projectlist': var_projectlist,
-													})
-	else:
-		return HttpResponseRedirect(reverse('login')+ '%s'%('?next=') + request.get_full_path())
 
 
-def partnerdetail(request, partner_id):
-	if request.user.is_anonymous():
-		return HttpResponseRedirect(reverse('login')+ '%s'%('?next=') + request.get_full_path())
-	elif request.user.is_staff:
-		var_partner =  Partner.objects.filter(partner_id__exact=partner_id)
-		return render(request, 'partnerdetail.html', {
-														'partner': var_partner,
-													})
-	else:
-		return render(request, 'test.html')
+
 
 def partnerlmd(request):
 	if request.user.is_anonymous():
