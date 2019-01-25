@@ -43,8 +43,12 @@ def partnerdetail(request, partner_id):
 		return HttpResponseRedirect(reverse('login')+ '%s'%('?next=') + request.get_full_path())
 	elif request.user.is_staff:
 		var_partner =  Partner.objects.filter(partner_id__exact=partner_id)
+		var_showallproject = Project.objects.all()
+		var_parter_by_project = var_showallproject.filter(partner=partner_id)
+		#print(var_parter_by_project.count())
 		return render(request, 'partnerdetail.html', {
 														'partner': var_partner,
+														'parter_by_project':var_parter_by_project
 													})
 	else:
 		return render(request, 'test.html')
@@ -90,7 +94,6 @@ def status(request,status):
 		});
 	else:
 		return render(request, 'test.html')
-    
 
 def home_miniportal(request):
 	if request.user.is_anonymous():
@@ -166,131 +169,6 @@ def home_miniportal(request):
 													})
 	else:
 		return HttpResponseRedirect(reverse('login')+ '%s'%('?next=') + request.get_full_path())
-
-
-
-
-
-def partnerlmd(request):
-	if request.user.is_anonymous():
-		return HttpResponseRedirect(reverse('login')+ '%s'%('?next=') + request.get_full_path())
-	elif request.user.is_staff:
-		var_project_by_lmd = Project.objects.filter(partner='1').distinct()
-		return render(request, 'partnerlmd.html', {
-														'project_by_lmdnya' : var_project_by_lmd,
-													})
-	else:
-		return render(request, 'test.html')
-
-def partnerla(request):
-	if request.user.is_anonymous():
-		return HttpResponseRedirect(reverse('login')+ '%s'%('?next=') + request.get_full_path())
-	elif request.user.is_staff:
-		var_project_by_lmd = Project.objects.filter(partner='2').distinct()
-		return render(request, 'partnerla.html', {
-														'project_by_lmdnya' : var_project_by_lmd,
-													})
-	else:
-		return render(request, 'test.html')
-
-def partnermsi(request):
-	if request.user.is_anonymous():
-		return HttpResponseRedirect(reverse('login')+ '%s'%('?next=') + request.get_full_path())
-	elif request.user.is_staff:
-		var_project_by_lmd = Project.objects.filter(partner='3').distinct()
-		return render(request, 'partnermsi.html', {
-														'project_by_lmdnya' : var_project_by_lmd,
-													})
-	else:
-		return render(request, 'test.html')
-
-def partneribm(request):
-	if request.user.is_anonymous():
-		return HttpResponseRedirect(reverse('login')+ '%s'%('?next=') + request.get_full_path())
-	elif request.user.is_staff:
-		var_project_by_lmd = Project.objects.filter(partner='4').distinct()
-		return render(request, 'partneribm.html', {
-														'project_by_lmdnya' : var_project_by_lmd,
-													})
-	else:
-		return render(request, 'test.html')
-
-def partnerbit(request):
-	if request.user.is_anonymous():
-		return HttpResponseRedirect(reverse('login')+ '%s'%('?next=') + request.get_full_path())
-	elif request.user.is_staff:
-		var_project_by_lmd = Project.objects.filter(partner='5').distinct()
-		return render(request, 'partnerbit.html', {
-														'project_by_lmdnya' : var_project_by_lmd,
-													})
-	else:
-		return render(request, 'test.html')
-
-def partnerindst(request):
-	if request.user.is_anonymous():
-		return HttpResponseRedirect(reverse('login')+ '%s'%('?next=') + request.get_full_path())
-	elif request.user.is_staff:
-		var_project_by_lmd = Project.objects.filter(partner='6').distinct()
-		return render(request, 'partnerindst.html', {
-														'project_by_lmdnya' : var_project_by_lmd,
-													})
-	else:
-		return render(request, 'test.html')
-
-def partnerast(request):
-	if request.user.is_anonymous():
-		return HttpResponseRedirect(reverse('login')+ '%s'%('?next=') + request.get_full_path())
-	elif request.user.is_staff:
-		var_project_by_lmd = Project.objects.filter(partner='7').distinct()
-		return render(request, 'partnerast.html', {
-														'project_by_lmdnya' : var_project_by_lmd,
-													})
-	else:
-		return render(request, 'test.html')
-def partnerbpt(request):
-	if request.user.is_anonymous():
-		return HttpResponseRedirect(reverse('login')+ '%s'%('?next=') + request.get_full_path())
-	elif request.user.is_staff:
-		var_project_by_lmd = Project.objects.filter(partner='9').distinct()
-		return render(request, 'partnerbpt.html', {
-														'project_by_lmdnya' : var_project_by_lmd,
-													})
-	else:
-		return render(request, 'test.html')
-
-def partnerdnn(request):
-	if request.user.is_anonymous():
-		return HttpResponseRedirect(reverse('login')+ '%s'%('?next=') + request.get_full_path())
-	elif request.user.is_staff:
-		var_project_by_lmd = Project.objects.filter(partner='10').distinct()
-		return render(request, 'partnerdnn.html', {
-														'project_by_lmdnya' : var_project_by_lmd,
-													})
-	else:
-		return render(request, 'test.html')
-
-def partneriki(request):
-	if request.user.is_anonymous():
-		return HttpResponseRedirect(reverse('login')+ '%s'%('?next=') + request.get_full_path())
-	elif request.user.is_staff:
-		var_project_by_lmd = Project.objects.filter(partner='11').distinct()
-		return render(request, 'partneriki.html', {
-														'project_by_lmdnya' : var_project_by_lmd,
-													})
-	else:
-		return render(request, 'test.html')
-
-def partneribid(request):
-	if request.user.is_anonymous():
-		return HttpResponseRedirect(reverse('login')+ '%s'%('?next=') + request.get_full_path())
-	elif request.user.is_staff:
-		var_project_by_lmd = Project.objects.filter(partner='12').distinct()
-		return render(request, 'partneribid.html', {
-														'project_by_lmdnya' : var_project_by_lmd,
-													})
-	else:
-		return render(request, 'test.html')
-
 
 
 def mom(request, mom_id):
