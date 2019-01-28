@@ -53,6 +53,24 @@ def partnerdetail(request, partner_id):
 	else:
 		return render(request, 'test.html')
 
+def partnerconvert(request, **input):
+	if request.user.is_anonymous():
+		return HttpResponseRedirect(reverse('login')+ '%s'%('?next=') + request.get_full_path())
+	elif request.user.is_staff:
+		var_partner_id = input["partner_id"]
+		var_partner =  Partner.objects.get(partner_alias__exact=var_partner_id).partner_id
+		return HttpResponseRedirect(var_partner)
+	else:
+		return render(request, 'test.html')
+
+def home_miniportal2(request):
+	if request.user.is_anonymous():
+		return HttpResponseRedirect(reverse('login')+ '%s'%('?next=') + request.get_full_path())
+	elif request.user.is_staff:
+		
+		return HttpResponse("<h1>ops url not found</h1>")
+	else:
+		return render(request, 'test.html')
 
 def kategori(request,kategori):
 	if request.user.is_anonymous():
@@ -72,11 +90,10 @@ def customer(request,customer):
 	if request.user.is_anonymous():
 		return HttpResponseRedirect(reverse('login')+ '%s'%('?next=') + request.get_full_path())
 	elif request.user.is_staff:
-		var_showallproject = Project.objects.all()
-		var_customer = var_showallproject.get(project_id=customer)
+		var_detailproject = Project.objects.filter(project_id__exact=customer)
+
 		return render(request, "customer.html", {
-		'customer' : var_customer,
-		'showallproject':var_showallproject,
+		'var_detailprojectnya':var_detailproject,
 		})
 	else:
 		return render(request, 'test.html')

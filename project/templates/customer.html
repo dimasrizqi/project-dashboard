@@ -16,9 +16,386 @@
 {% include "snippets/navbar.html" %}
 
 <div class="uk-accordion-content uk-active shadow " style="margin-top: 85px;padding: 5px;">
-  <h1><u>Detail Project : {{ customer }}</u></h1><br>
-  {{ customer.project_level }}
- 
+  
+  <h1><u>Detail Project :<br> {{ var_detailprojectnya.get }} </u></h1><br>
+  {% for project in var_detailprojectnya %}{% autoescape off %}
+  <h4 class="uk-accordion-title">
+        <div class="uk-grid">
+          <div class="uk-width-3-6">
+            <b>{% for customer in project.customer.all %}{{customer.customer_name}}{% endfor %}</b>
+          </div>
+          <div class="uk-width-1-6 uk-button-dropdown" data-uk-dropdown="{delay: 200}">
+            <span class="uk-h6">SLA <i class="uk-icon-caret-down"></i></span>
+            <div class="uk-dropdown uk-text-small">
+              <ul class="uk-nav uk-nav-dropdown">
+                <li class="uk-margin-left">- Support Hour: {{project.sla_support_hour}}</li>
+                <li class="uk-margin-left">- Availabiliy: {{project.sla_availability}}</li>
+                <li class="uk-margin-left">- Response Time: {{project.sla_response_time}} Hour</li>
+                <li class="uk-margin-left">- Resolution Time: {{project.sla_resolution_time}} Hour</li>
+              </ul>
+            </div>
+          </div>
+          <div class="uk-width-1-6 uk-button-dropdown" data-uk-dropdown="{delay: 200}">
+            <span class="uk-h6">Scope Summary <i class="uk-icon-caret-down"></i></span>
+            <div class="uk-dropdown uk-text-small">
+              <ul class="uk-nav uk-nav-dropdown">
+                {{project.scope_summary}}
+              </ul>
+            </div>
+          </div>
+          <div class="uk-width-1-6">
+            <span class="uk-h6">Project Level: {% if project.project_level == 'c' %}Complex{% elif project.project_level == 'm' %}Medium{% else %}Simple{% endif %}
+            </span>
+          </div>
+        </div>
+      </h4>
+      <div class="uk-accordion-content uk-text-small">
+        <div class="uk-grid"  >
+          <div class="uk-width-2-6" style="padding-bottom: 5px;">
+            <b>Project Name: </b>{{project.project_name}}
+          </div>
+          <div class="uk-width-1-6" style="padding-bottom: 5px;">
+            <b>Status:</b> {{project.project_status}}
+          </div>
+          <div class="uk-width-1-6" style="padding-bottom: 5px;">
+            <b>Project Category:</b> {{project.project_category}}
+          </div>
+          <div class="uk-width-2-6">
+            <b>Partner: </b>{% for partner in project.partner.all %}<a class="uk-link-muted" href="/project/partner/{{partner.partner_id}}" target="_blank">{{partner.partner_name}}{% endfor %}</a>
+          </div>
+        </div>
+      </div>
+      <h4 class="uk-accordion-title uk-text-primary uk-text-bold" style="font-size: 10px; line-height:12px;">
+        <div class="uk-grid">
+          <div class="uk-width-1-1">
+            <span>Detail Contract</span>
+          </div>
+        </div>
+      </h4>
+      <div class="uk-accordion-content uk-text-small">
+        <table class="uk-table uk-table-hover">
+              <thead>
+                <tr>
+                  <th class="uk-width-1-10">Contract To</th>
+                  <th class="uk-width-1-10">Contract Type</th>
+                  <th class="uk-width-1-10">Start Contract</th>
+                  <th class="uk-width-1-10">End Contract</th>
+                  <th class="uk-width-1-10">Contract Due</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for contract in project.contract_set.all %}
+                <tr>
+                  <td class="uk-width-1-10"><b><u>{{contract.contract_type}}</u></b></td>
+                  <td class="uk-width-1-10">{{contract.perpanjangan}}</td>
+                  <td class="uk-width-1-10">{{contract.start_contract}}</td>
+                  <td class="uk-width-1-10">{{contract.end_contract}}</td>
+                  <td class="uk-width-1-10">{{contract.end_contract|timeuntil}}</td>
+                </tr>{% endfor %}
+              </tbody>
+            </table>
+      </div>
+      <h4 class="uk-accordion-title uk-text-primary" style="font-size: 10px; line-height:12px;">
+        <div class="uk-grid">
+          <div class="uk-width-2-4">
+            <span class="uk-text-bold">Documents</span>
+          </div>
+        </div>
+      </h4>
+      <div class="uk-accordion-content uk-text-small">
+        <div class="uk-grid uk-padding-remove">
+          <div class="uk-width-medium-1-4">
+            <div class="uk-panel uk-panel-box" style="padding:5px 5px 5px 5px;">
+              <h6 class="uk-text-bold" style="font-size: 10px;">Contracts, PO & Approval Project</h6>
+              <ul class="uk-list ">
+                <dev class="uk-panel uk-panel-box uk-padding-remove uk-margin-small-bottom">
+                  <li>
+                    <div class="uk-grid uk-grid-small">
+                      <div class="uk-width-1-2">Contract with Customer:</div>
+                      <div class="uk-width-1-2">{{project.contract_customer}}</div>
+                    </div> 
+                  </li>
+                  <li>
+                    <div class="uk-grid uk-grid-small">
+                      <div class="uk-width-1-2">Contract with Partner:</div>
+                      <div class="uk-width-1-2">{{project.contract_partner}}</div>
+                    </div> 
+                  </li>
+                </dev>
+                <li>
+                  <div class="uk-grid uk-grid-small">
+                    <div class="uk-width-1-2">PO:</div>
+                    <div class="uk-width-1-2">{{project.purchase_order}}</div>
+                  </div>  
+                </li>
+                <li>
+                  <div class="uk-grid uk-grid-small">
+                    <div class="uk-width-1-2">Project Approval:</div>
+                    <div class="uk-width-1-2">{{project.project_approval}}</div>
+                  </div> 
+                </li>
+                <li>
+                  <div class="uk-grid uk-grid-small">
+                    <div class="uk-width-1-2">MOM Serah Terima:</div>
+                    <!-- mom serah terima  -->
+                    <div class="uk-width-1-2">
+                      {% for var_mom in project.momserahterima_set.all %} 
+                        
+                          <a href="mom/{{var_mom.mom_id}}" target="_blank" class="uk-text-success">Ada</a>
+                        
+                      {% endfor %}
+                    </div>
+                  </div> 
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="uk-width-medium-1-4">
+            <div class="uk-panel uk-panel-box" style="padding:5px 5px 5px 5px;">
+              <h6 class="uk-text-bold" style="font-size: 10px;">Proposal</h6>
+              <ul class="uk-list">
+                <dev class="uk-panel uk-panel-box uk-padding-remove uk-margin-small-bottom">
+                  <li>
+                    <div class="uk-grid uk-grid-small">
+                      <div class="uk-width-1-2">To Customer:</div>
+                      <div class="uk-width-1-2">{{project.proposal_to_customer}}</div>
+                    </div> 
+                  </li>
+                  <li>
+                    <table class="uk-table uk-table-striped uk-margin-remove">
+                      <thead>
+                        <tr class="uk-padding-remove">
+                          <th class="uk-text-center">SoW</th>
+                          <th class="uk-text-center">HLD</th>
+                          <th class="uk-text-center">BoQ</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="uk-text-center">{{project.proposal_to_customer_sow}}</td>
+                          <td class="uk-text-center">{{project.proposal_to_customer_hld}}</td>
+                          <td class="uk-text-center">{{project.proposal_to_customer_boq}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </li>
+                </dev>
+                <dev class="uk-panel uk-panel-box uk-padding-remove">
+                  <li>
+                    <div class="uk-grid uk-grid-small">
+                      <div class="uk-width-1-2">From Partner:</div>
+                      <div class="uk-width-1-2">{{project.proposal_from_partner}}</div>
+                    </div> 
+                  </li>
+                  <li>
+                    <table class="uk-table uk-table-striped uk-margin-remove">
+                      <thead>
+                        <tr class="uk-padding-remove">
+                          <th class="uk-text-center">SoW</th>
+                          <th class="uk-text-center">BoQ</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="uk-text-center">{{project.proposal_from_partner_sow}}</td>
+                          <td class="uk-text-center">{{project.proposal_from_partner_boq}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </li>
+                </dev>
+              </ul>
+            </div>
+          </div>
+          <div class="uk-width-medium-1-4">
+            <div class="uk-panel uk-panel-box" style="padding:5px 5px 5px 5px;">
+              <!-- <div class="uk-grid uk-grid-small">
+                <div class="uk-width-1-2"> -->
+                <h6 class="uk-text-bold" style="font-size: 10px;">Implementation</h6>
+                <!-- </div>
+                <div class="uk-width-1-2">
+                <a href="" class="uk-margin-small-bottom">Topology</a>
+                </div>
+              </div> -->
+              <ul class="uk-list">
+                <dev class="uk-panel uk-panel-box uk-padding-remove uk-margin-small-bottom">
+                  <li>
+                    <div class="uk-grid uk-grid-small">
+                      <div class="uk-width-1-2">Instalation Document:</div>
+                      <div class="uk-width-1-2">{{project.implementation_document}}</div>
+                    </div> 
+                  </li>
+                  <li>
+                    <table class="uk-table uk-table-striped uk-margin-remove">
+                    <thead>
+                      <tr class="uk-padding-remove">
+                        <th class="uk-text-center">LLD</th>
+                        <th class="uk-text-center">Tech Data</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="uk-text-center">{{project.low_level_design}}</td>
+                        <td class="uk-text-center">{{project.technical_data}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </li>
+                </dev>
+                <li>
+                  <div class="uk-grid uk-grid-small">
+                    <div class="uk-width-1-2">Business Case:</div>
+                    <div class="uk-width-1-2">{{project.business_case}}</div>
+                  </div> 
+                </li>
+                <li>
+                  <div class="uk-grid uk-grid-small">
+                    <div class="uk-width-1-2">UAT:</div>
+                    <div class="uk-width-1-2">{{project.user_acceptance_test}}</div>
+                  </div> 
+                </li>
+                <li>
+                  <div class="uk-grid uk-grid-small">
+                    <div class="uk-width-1-2">BAST To Customer:</div>
+                    <div class="uk-width-1-2">{{project.bast_to_customer}}</div>
+                  </div> 
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="uk-width-medium-1-4">
+            <div class="uk-panel uk-panel-box" style="padding:5px 5px 5px 5px;">
+              <span class="uk-h6 uk-text-bold" style="font-size: 10px;">Partner & WI</span>
+              <ul class="uk-list">
+                <dev class="uk-panel uk-panel-box uk-padding-remove uk-margin-small-bottom">
+                  <li>
+                    <div class="uk-grid uk-grid-small">
+                      <div class="uk-width-1-2">Partner Document:</div>
+                      <div class="uk-width-1-2">{{project.partner_document}}</div>
+                    </div> 
+                  </li>
+                  <li>
+                    <div class="uk-grid uk-grid-small">
+                      <div class="uk-width-1-2">Product Spesification:</div>
+                      <div class="uk-width-1-2">{{project.product_spesification}}</div>
+                    </div> 
+                  </li>
+                  <li>
+                    <div class="uk-grid uk-grid-small">
+                      <div class="uk-width-1-2">BAST from Partner:</div>
+                      <div class="uk-width-1-2">{{project.bast_from_partner}}</div>
+                    </div> 
+                  </li>
+                </dev>
+                <dev class="uk-panel uk-panel-box uk-padding-remove uk-margin-small-bottom">
+                  <li>
+                    <div class="uk-grid uk-grid-small">
+                      <div class="uk-width-1-2">WI Ops:</div>
+                      <div class="uk-width-1-2">{{project.wi_operation}}</div>
+                    </div> 
+                  </li>
+                  <li>
+                    <div class="uk-grid uk-grid-small">
+                      <div class="uk-width-1-2">WI CC:</div>
+                      <div class="uk-width-1-2">{{project.wi_customer_care}}</div>
+                    </div> 
+                  </li>
+                </dev>
+              </ul>
+            </div>
+          </div>
+        </div>{% endautoescape %}
+      </div>
+  <h4 class="uk-accordion-title uk-text-primary uk-text-bold" >
+        <div class="uk-grid">
+          <div class="uk-width-1-1">
+            <span>Informasi Contact</span>
+          </div>
+        </div>
+      </h4>
+    <div class="uk-accordion-content uk-text-small" style="padding-bottom: 20px;">
+        <div class="uk-grid">
+          <div class="uk-width-1-1">
+            <table class="uk-table uk-table-hover">
+              <thead>
+                <tr>
+                  <th class="uk-width-1-10">Contact</th>
+                  <th class="uk-width-1-10">Inisial</th>
+                  <th class="uk-width-2-10">Nama</th>
+                  <th class="uk-width-2-10">Email</th>
+                  <th class="uk-width-2-10">Telp</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="uk-width-1-10"><b>Project Owner</b></td>
+                  <td class="uk-width-1-10">{{project.project_support_lintasarta.initial}}</td>
+                  <td class="uk-width-2-10">{{project.project_support_lintasarta.name}}</td>
+                  <td class="uk-width-2-10">{{project.project_support_lintasarta.email}}</td>
+                  <td class="uk-width-2-10">{{project.project_support_lintasarta.telp}}</td>
+                </tr>
+                <tr>
+                  <td class="uk-width-1-10"><b>CAR</b></td>
+                  <td class="uk-width-1-10">{{project.car_lintasarta.initial}}</td>
+                  <td class="uk-width-2-10">{{project.car_lintasarta.name}}</td>
+                  <td class="uk-width-2-10">{{project.car_lintasarta.email}}</td>
+                  <td class="uk-width-2-10">{{project.car_lintasarta.telp}}</td>
+                </tr>
+                <tr>
+                  <td class="uk-width-1-10"><b>Sales</b></td>
+                  <td class="uk-width-1-10">{{project.sales_lintasarta.initial}}</td>
+                  <td class="uk-width-2-10">{{project.sales_lintasarta.name}}</td>
+                  <td class="uk-width-2-10">{{project.sales_lintasarta.email}}</td>
+                  <td class="uk-width-2-10">{{project.sales_lintasarta.telp}}</td>
+                </tr>
+                <tr>
+                  <td class="uk-width-1-10 "><b>Delivery</b></td>
+                  <td class="uk-width-1-10">{{project.delivery_lintasarta.initial}}</td>
+                  <td class="uk-width-2-10">{{project.delivery_lintasarta.name}}</td>
+                  <td class="uk-width-2-10">{{project.delivery_lintasarta.email}}</td>
+                  <td class="uk-width-2-10">{{project.delivery_lintasarta.telp}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <h4 class="uk-accordion-title uk-text-primary uk-text-bold">
+        <div class="uk-grid">
+          <div class="uk-width-1-1">
+            <span>Service ID (No Jaringan)</span>
+          </div>
+        </div>
+      </h4>
+      <div class="uk-accordion-content uk-text-small">
+        <div class="uk-grid">
+          <div class="uk-width-1-1">
+            <table class="uk-table uk-table-hover">
+              <thead>
+                <tr>
+                  <th class="uk-text-center uk-text-middle">No Jaringan</th>
+                  <th class="uk-text-center uk-text-middle">Jasa</th>
+                  <th class="uk-text-center uk-text-middle">Kecepatan</th>
+                  <th class="uk-text-center uk-text-middle">Jenis Kecepatan</th>
+                  <th class="uk-text-center uk-text-middle">Keterangan</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>{% for order in project.order_set.all %}
+                  <td class="uk-width-1-10">{{order.no_jaringan}}</td>
+                  <td class="uk-width-2-10">{{order.jasa}}</td>
+                  <td class="uk-width-1-10">{{order.kecepatan}}</td>
+                  <td class="uk-width-2-10">{{order.jenis_kecepatan}}</td>
+                  <td class="uk-width-4-10">{{order.keterangan}}</td>
+                </tr>{% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+  {% endfor %}
 </div>
 
 
