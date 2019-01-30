@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from . models import Project, Projectstatus,Momserahterima, Customer, Order, Partner, Lintasartaperson, Contract, Projectcategory
-from datetime import datetime
+from datetime import datetime, date, timedelta
 
 #custom function
 def contract_lessthan3month (rawdata):
@@ -26,6 +26,125 @@ def contract_lessthan2month (rawdata):
 				lessthan2month = data.project_id
 				my_list.append(str(lessthan2month))
 	return my_list
+
+def tigabulan(request):
+	hari_ini = datetime.now().date()
+	var_contract = Contract.objects.all().order_by('-end_contract')
+	var_contract_customer = Contract.objects.filter(contract_type=1)
+	var_contract_partner = Contract.objects.filter(contract_type=2)
+	# var_contract_sample = var_contract.filter(end_contract__year='2019',end_contract__month='10')
+	dua_minggu = hari_ini + timedelta(days=14)
+	satu_bulan = hari_ini + timedelta(days=30)
+	tiga_bulan = hari_ini + timedelta(days=90)
+	var_contract_tiga_bulan = var_contract.filter(end_contract__range=[satu_bulan,tiga_bulan])
+	var_contract_satu_bulan = var_contract.filter(end_contract__range=[dua_minggu,satu_bulan])
+	var_contract_dua_minggu = var_contract.filter(end_contract__range=[hari_ini,dua_minggu])
+	var_contract_follow_up = var_contract.filter(end_contract__range=["2000-01-01",hari_ini])
+	var_projectlist = Project.objects.all()
+	print(hari_ini)
+	print(dua_minggu)
+	print(dua_minggu,satu_bulan)
+	print(tiga_bulan)
+	return render(request, 'tigabulan.html', {
+			'var_contract': var_contract,
+			'hari_ininya' : hari_ini,
+			'var_contract_satu_bulan' : var_contract_satu_bulan,
+			'var_contract_tiga_bulan' : var_contract_tiga_bulan,
+			'var_contract_dua_minggu' : var_contract_dua_minggu,
+			'var_contract_customer' : var_contract_customer,
+			'var_contract_partner' : var_contract_partner,
+			'var_contract_follow_up' : var_contract_follow_up,
+		})
+
+def satubulan(request):
+	hari_ini = datetime.now().date()
+	var_contract = Contract.objects.all().order_by('-end_contract')
+	var_contract_customer = Contract.objects.filter(contract_type=1)
+	var_contract_partner = Contract.objects.filter(contract_type=2)
+	# var_contract_sample = var_contract.filter(end_contract__year='2019',end_contract__month='10')
+	dua_minggu = hari_ini + timedelta(days=14)
+	satu_bulan = hari_ini + timedelta(days=30)
+	tiga_bulan = hari_ini + timedelta(days=90)
+	var_contract_tiga_bulan = var_contract.filter(end_contract__range=[satu_bulan,tiga_bulan])
+	var_contract_satu_bulan = var_contract.filter(end_contract__range=[dua_minggu,satu_bulan])
+	var_contract_dua_minggu = var_contract.filter(end_contract__range=[hari_ini,dua_minggu])
+	var_contract_follow_up = var_contract.filter(end_contract__range=["2000-01-01",hari_ini])
+	var_projectlist = Project.objects.all()
+	print(hari_ini)
+	print(dua_minggu)
+	print(dua_minggu,satu_bulan)
+	print(tiga_bulan)
+	return render(request, 'satubulan.html', {
+			'var_contract': var_contract,
+			'hari_ininya' : hari_ini,
+			'var_contract_satu_bulan' : var_contract_satu_bulan,
+			'var_contract_tiga_bulan' : var_contract_tiga_bulan,
+			'var_contract_dua_minggu' : var_contract_dua_minggu,
+			'var_contract_customer' : var_contract_customer,
+			'var_contract_partner' : var_contract_partner,
+			'var_contract_follow_up' : var_contract_follow_up,
+		})
+
+def duaminggu(request):
+	hari_ini = datetime.now().date()
+	var_contract = Contract.objects.all().order_by('-end_contract')
+	var_contract_customer = Contract.objects.filter(contract_type=1)
+	var_contract_partner = Contract.objects.filter(contract_type=2)
+	# var_contract_sample = var_contract.filter(end_contract__year='2019',end_contract__month='10')
+	dua_minggu = hari_ini + timedelta(days=14)
+	satu_bulan = hari_ini + timedelta(days=30)
+	tiga_bulan = hari_ini + timedelta(days=90)
+	var_contract_tiga_bulan = var_contract.filter(end_contract__range=[satu_bulan,tiga_bulan])
+	var_contract_satu_bulan = var_contract.filter(end_contract__range=[dua_minggu,satu_bulan])
+	var_contract_dua_minggu = var_contract.filter(end_contract__range=[hari_ini,dua_minggu])
+	var_contract_follow_up = var_contract.filter(end_contract__range=["2000-01-01",hari_ini])
+	var_projectlist = Project.objects.all()
+	print(hari_ini)
+	print(dua_minggu)
+	print(dua_minggu,satu_bulan)
+	print(tiga_bulan)
+	return render(request, 'duaminggu.html', {
+			'var_contract': var_contract,
+			'hari_ininya' : hari_ini,
+			'var_contract_satu_bulan' : var_contract_satu_bulan,
+			'var_contract_tiga_bulan' : var_contract_tiga_bulan,
+			'var_contract_dua_minggu' : var_contract_dua_minggu,
+			'var_contract_customer' : var_contract_customer,
+			'var_contract_partner' : var_contract_partner,
+			'var_contract_follow_up' : var_contract_follow_up,
+		})
+
+
+
+def alert(request):
+	hari_ini = datetime.now().date()
+	var_contract = Contract.objects.all().order_by('-end_contract')
+	var_contract_customer = Contract.objects.filter(contract_type=1)
+	var_contract_partner = Contract.objects.filter(contract_type=2)
+	# var_contract_sample = var_contract.filter(end_contract__year='2019',end_contract__month='10')
+	dua_minggu = hari_ini + timedelta(days=14)
+	satu_bulan = hari_ini + timedelta(days=30)
+	tiga_bulan = hari_ini + timedelta(days=90)
+	var_contract_tiga_bulan = var_contract.filter(end_contract__range=[satu_bulan,tiga_bulan])
+	var_contract_satu_bulan = var_contract.filter(end_contract__range=[dua_minggu,satu_bulan])
+	var_contract_dua_minggu = var_contract.filter(end_contract__range=[hari_ini,dua_minggu])
+	var_contract_follow_up = var_contract.filter(end_contract__range=["2000-01-01",hari_ini])
+	var_projectlist = Project.objects.all()
+	print(hari_ini)
+	print(dua_minggu)
+	print(dua_minggu,satu_bulan)
+	print(tiga_bulan)
+	return render(request, 'alert.html', {
+			'var_contract': var_contract,
+			'hari_ininya' : hari_ini,
+			'var_contract_satu_bulan' : var_contract_satu_bulan,
+			'var_contract_tiga_bulan' : var_contract_tiga_bulan,
+			'var_contract_dua_minggu' : var_contract_dua_minggu,
+			'var_contract_customer' : var_contract_customer,
+			'var_contract_partner' : var_contract_partner,
+			'var_contract_follow_up' : var_contract_follow_up,
+		})
+
 
 def list(request):
 	if request.user.is_anonymous():
@@ -349,7 +468,7 @@ def detail(request):
 														})
 		
 		# filter by handle by
-		elif request.get_full_path() == '/project/detail?f=handlebyhbi':
+		elif request.get_full_path()  == '/project/detail?f=handlebyhbi':
 			var_projectlist = Project.objects.filter(project_support_lintasarta__exact=1)
 			project_lessthan3month = len(contract_lessthan3month(var_projectlist))
 			simple_project_level = var_projectlist.filter(project_level__exact='s').count()

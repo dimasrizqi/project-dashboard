@@ -6,6 +6,10 @@ from . import views
 app_name = 'project'
 urlpatterns = [
 	url(r'^$', miniportal_views.home_miniportal2 ),
+    url(r'^alert', miniportal_views.alert ),
+    url(r'^duaminggu', miniportal_views.duaminggu ),
+    url(r'^satubulan', miniportal_views.satubulan ),
+    url(r'^tigabulan', miniportal_views.tigabulan ),
     url(r'^partner/$', miniportal_views.home_miniportal2 ),
     url(r'^kategori/$', miniportal_views.home_miniportal2 ),
     url(r'^status/$', miniportal_views.home_miniportal2 ),
